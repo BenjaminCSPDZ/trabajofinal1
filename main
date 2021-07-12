@@ -1,0 +1,169 @@
+#Benjamin Cespedes 21.062.072-9
+#Benjamin Soto 21.063.320-0
+#esto define el diccionario que se utilizara para saber que region se utiliza
+diccionario_R={"1":"TarapacÃ¡","2":"Antofagasta","3":"Atacama","4":"Coquimbo","5":"Valparaiso","13":"Metropolitana","6":"Oâ€™Higgins","7":"Maule","16":"Ã‘uble","14":"Los RÃ o","10":"Los lagos","11":"AysÃ©n ","12":"Magallanes"}
+archivo = open("vacunacion_region.csv","r")
+def lineas(valor): #aqui definimos una funcion la cual sirve para 
+    x = archivo.readlines()#en esta funcion lo que hacemos es buscar listas que inicien de la misma manera que los objetos en la lista
+    region = valor
+    for i in (x):
+        i = i.split(",")
+        if i[0]== region:
+            lista_rellenable.append(i)
+def listas_grafico():#esta funcion lo que hace es tomar 2 listas para hacer la comapracion y mostrar los graficos sobre los vacunados en la region
+    fechas= archivo.readline()
+    list(fechas)
+    fechas=fechas.split(",") 
+    primera_dosis = lista_rellenable[0]
+    segunda_dosis = lista_rellenable[1]
+    fechas.pop(0)
+    fechas.pop(0)
+    primera_dosis.pop(0)
+    primera_dosis.pop(0)
+    segunda_dosis.pop(0)
+    segunda_dosis.pop(0)
+    import matplotlib.pyplot as plt   
+    results = primera_dosis#Aqui lo que se hace es transformar los objetos de la lista en variables de tipo int para no generar incompatibilidadeas
+    primera_dosis_int = [int(i) for i in results]
+    results = segunda_dosis
+    segunda_dosis_int = [int(i) for i in results]
+    fig, ax= plt.subplots()
+    plt.title("primera y segunda dosis graficadas") 
+    plt.xticks(rotation = 90)
+    plt.plot(fechas,primera_dosis_int,color="g",label="Primera dosis")
+    plt.legend() 
+    ax.set_ylabel("Personas vacunadas") 
+    plt.plot(fechas,segunda_dosis_int,color="r",label="Segunda dosis")
+    plt.legend()  
+    ax.set_xlabel("Fechas")
+    ax.grid(linestyle = "dashed")
+    plt.show()
+print("Bienvenido, le entregaremos toda la información y datos sobre la vacunacion en chile")
+print("seleccione una region")
+opcion1 = input("1-Informacion de vacunacion de cada region\n2-Informacion de toda la vacunacion\n3-Comparación de entre regiones\n")
+while not opcion1.isnumeric():
+    opcion1 = input("Debe ingresar un valor valido porfavor")
+while int(opcion1) <=0 or int(opcion1) >3:
+    opcion1 = input("Ingrese un valor valido porfavor")
+if opcion1 =="1":#lo que hacemos en esta opcion es solo mostrar datos graficados sobre los vacunados con primera y segunda dosis en la region previamente seleccionada
+    print("regiones a seleccionar:\n15-Arica y parinacota\n1-Tarapaca\n2-Antofagasta\n3-Atacama\n4-Coquimbo\n5-Valparaiso\n13-Metropolitana\n6-Bernardo Ohiggins\n7-Maule\n16-Ñuble\n8-Bío bío\n9-Araucania\n14-Los rios\n10-Los lagos\n11-Aysen\n12-Magallanes")
+    print("seleccione las regiones en las cuales quiere hacer las comparaciones")
+    info_region = input()
+    while not info_region.isnumeric():
+        print("ingrese un valor valido\n")
+        info_region = input()
+    while int(info_region) <=0 or int(info_region) >16:
+        info_region = input("Ingrese un valor valido\n")
+
+    traductor_nr = (diccionario_R[info_region])
+    lista_rellenable = []
+    lineas(traductor_nr)
+    listas_grafico()      
+elif opcion1 =="2":#aqui se meustra los niveles de vacunacion nacional entre las regiones con mas vacunados
+    print("ingrese la opción que desea realizar\n1-Mostrar las 5 regiones con el mayor número de personas vacunadas(primera dosis)\n2-Mostrar las 5 regiones con el mayor número de personas vacunadas(segunda dosis).\n3-Mostrar en un gráfico, la cantidad de personas que se aplican las y las que no(segunda dosis)\n4-Mostrar la región con mayor número de vacunados totales.")
+    info_pais = input()
+    while not info_pais.isnumeric():
+        info_pais = input("Debe ingresar un valor valido porfavor",)
+    while int(info_pais) <=0 or int(info_pais) >4:
+        info_pais = input("Ingrese un valor valido porfavor")
+    #if info_pais == "1":
+    #elif info_pais == "2":       
+    if info_pais == "3":#aqui lo que se intenta hacer una comparacion entre regiones seleccionadas para ahcer una comparacion entre los vacunados ocn primera dosis y segunda dosis
+        linea1 = archivo.readline()#fechas
+        list(linea1)
+        linea1 = linea1.split(",")
+        linea1.pop(0)
+        linea1.pop(0)
+        linea2 = archivo.readline()#cantidad de personahs vacunadas solo con primera dosis
+        list(linea2)
+        linea2 = linea2.split(",")
+        linea2.pop(0)
+        linea2.pop(0)
+        linea3 = archivo.readline()
+        list(linea3)
+        linea3 = linea3.split(",")#gente con ambas dosis
+        linea3.pop(0)
+        linea3.pop(0)        
+        import matplotlib.pyplot as plt   
+        resultado2 = linea2
+        Primerasdosis_int = [int(i) for i in resultado2]
+        resultado2 = linea3
+        segundasdosis_int = [int(i) for i in resultado2]
+        print("con esta informacion", 2320697-55028,"personas no se han vacunado")#esto es una conclusion en el grafico
+        fig, ax= plt.subplots()
+        plt.title("Grafico Vacunados a nivel nacional")
+        plt.xticks(rotation = 90)
+        plt.yticks([0,200000,400000,600000,800000,1000000,1200000,1400000,1600000,1800000,2000000,2200000,2400000])
+        plt.plot(linea1,Primerasdosis_int,color="r",label="Primera dosis")
+        plt.legend()
+        ax.set_ylabel("Cantidad de personas en millones")
+        plt.plot(linea1,segundasdosis_int,color="b",label="Segunda dosis")
+        plt.legend() 
+        ax.set_xlabel("Fechas")
+        ax.grid(linestyle = "dashed")
+        plt.show()
+    elif info_pais =="4":#esta es una subopcion del menu 2 y muestra inmediatamente el grafico con mas vacunados
+        print("La region con mas número de vacunados totales es la región\nMetropolitana con 860.084 vacunados (primera y\n78)4s (segunda dosis).")
+elif opcion1 == "3":# esta es la principal y muestra 2 graficas para que el usuario compare las regiones que el guste
+    print("Ingrese los números de las 2 regiones las cuales quiere comparar:\n(Ejemplo: 13,15)\n")
+    comparacion = input()#aqui lo que se hace es pedirle al usuario que ingrese las regiones
+    comparacion = comparacion.split(",")
+    xd=comparacion[0]
+    xd1=comparacion[1]
+    primera_region=(diccionario_R[xd])
+    segunda_region=(diccionario_R[xd1])    
+    lista_rellenable=[]#lista vacia para almacenar
+    lineas(primera_region)
+    archivo = open("vacunacion_region.csv","r")
+    fechas1= archivo.readline()
+    list(fechas1)
+    fechas1=fechas1.split(",") 
+    primera_dosis1 = lista_rellenable[0]# se separan las listas
+    segunda_dosis1 = lista_rellenable[1]
+    fechas1.pop(0)
+    fechas1.pop(0)
+    primera_dosis1.pop(0)
+    primera_dosis1.pop(0)
+    segunda_dosis1.pop(0)
+    segunda_dosis1.pop(0)
+    results1 = primera_dosis1#en estas lineas lo que se hace es nuevamente convertir los elementos de la lista en int
+    primera_dosis_int1 = [int(i) for i in results1]
+    results1 = segunda_dosis1
+    segunda_dosis_int1 = [int(i) for i in results1]
+    lista_rellenable = []
+    lineas(segunda_region)
+    archivo = open("vacunacion_region.csv","r")
+    fechas2= archivo.readline()
+    list(fechas2)
+    fechas2=fechas2.split(",") 
+    primera_dosis2 = lista_rellenable[0]
+    segunda_dosis2 = lista_rellenable[1]
+    fechas2.pop(0)
+    fechas2.pop(0)
+    primera_dosis2.pop(0)
+    primera_dosis2.pop(0)
+    segunda_dosis2.pop(0)
+    segunda_dosis2.pop(0)#aqui se crean listas y se subseparan en 2 y se eliminan las palabras iniciales
+    results2 = primera_dosis2
+    primera_dosis_int2 = [int(i) for i in results2]
+    results2 = segunda_dosis2
+    segunda_dosis_int2 = [int(i) for i in results2]
+    import matplotlib.pyplot as plt #aqui se grafica
+    fig, ax = plt.subplots(2,2,sharey = True)
+    ax[0,0].set_ylabel("Primera dosis de primera region")
+    ax[0,1].set_ylabel("Segunda dosis de primera region")
+    ax[1,0].set_ylabel("Primera dosis de segunda region")
+    ax[1,1].set_ylabel("Segunda dosis de segunda region")
+    ax[0,0].set_xlabel("Fechas")
+    ax[0,1].set_xlabel("Fechas")
+    ax[1,0].set_xlabel("Fechas")
+    ax[1,1].set_xlabel("Fechas")
+    ax[0,0].grid(linestyle = "dashed")
+    ax[0,1].grid(linestyle = "dashed")
+    ax[1,0].grid(linestyle = "dashed")
+    ax[1,1].grid(linestyle = "dashed")
+    ax[0,0].plot(fechas1,primera_dosis_int1,color = "g")
+    ax[0,1].plot(fechas1,segunda_dosis_int1,color = "g")
+    ax[1,0].plot(fechas2,primera_dosis_int2,color = "r")
+    ax[1,1].plot(fechas2,segunda_dosis_int2,color = "r")
+    plt.show()
